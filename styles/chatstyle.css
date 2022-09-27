@@ -1,0 +1,76 @@
+/* layout */
+.panel 
+{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 15px 25px;
+}
+.w50 {
+    width: 50%;
+    
+}
+.center{
+    margin: 0 auto;
+}
+.w25
+{
+    width: 25%;
+}
+.w75 {
+    width: 75%;
+}
+/* intput */
+.input-wrap {
+    display: flex;
+    width: 100%;
+}
+.text {
+    width: 100%;
+    padding:.5rem;
+}
+.btn {
+    display: inline-block;
+    
+    min-width: 90px;
+}
+/* list */
+.list {
+    list-style: square;
+    list-style-position: inside;
+    padding-left: 12px;
+}
+/* file */
+.files 
+{
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 15px;
+    border: solid 1px #ccc;
+    border-radius: .5rem;
+}
+.files h4
+{
+    display: block;
+    width: 100%;
+}
+.box {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #ccc;
+    border: .5rem;
+}
+.box img {
+    width: 150px;
+    padding: 0;
+    margin: 0;
+}
+.box div {
+    text-align: center;
+}

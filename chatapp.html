@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="styles/style.css" />
+   <link rel="stylesheet" href="styles/chatstyle.css" />
+   <link rel="stylesheet" href="styles/js-snackbar.css">
+   <script src="node_modules/jquery/dist/jquery.js"></script>
+   <script src="node_modules/socket.io/client-dist/socket.io.js"></script>
+   <script src="node_modules/socketio-file-upload/client.js"></script>
+   <script src="scripts/js-snackbar.js"></script>
+   <title>Document</title>
+   <script>
+    $(() => {
+      var username = "";
+      var socket = io('http://localhost:8014');
+      socket.on('connect', () => {
+        var uploader = new SocketIOFileUpload(socket);
+        uploader.listenOnInput(document.getElementById("fu"));
+        $('#pj').show()
+        $('#join').click(() => {
+          socket.emit('addme', $("#name").val())
+        });
+        $('#send').click(() => {
+          socket.emit('send', $('#msg').val());
+          $('#mlist').append(`<li>You: ${$('#msg').val()}</li>`);
+          $('#msg').val('');
+        });
+        $('#file').click(() => {
+          $("#fu").trigger('click');
+        });
+
+        socket.on('joined', name => {
+          username = name;
+          $('#pd').show();
+          $('#un').html(username);
+          $('#pc').show();
+          $('#pj').hide();
+        });
+        socket.on('userlistcahnged', names => {
+          names.forEach(n => {
+            $('#ulist').append(`<li>${n}</li>`);
+          })
+        });
+        socket.on('message', data => {
+
+          $('#mlist').append(`<li>${data.user}: ${data.msg}</li>`);
+
+        });
+        socket.on('uploaded', data => {
+
+          $('#files').append(`<div class='box'>
+                                        <img src='images/${getIcon(data.extension)}' />
+                                        <div>${fileName(data.file)}</div>
+                                        <div>By ${data.from}</div>
+                                        <div><a target='_blank' href="uploads/${data.file}">Download</a></div>
+                                    </div>`);
+        });
+        uploader.addEventListener("complete", function (event) {
+
+          SnackBar({
+            message: `${event.file.name} uploaded`,
+            position: "bc"
+          });
+        });
+      });
+
+      function getIcon(ext) {
+        switch (ext) {
+          case "jpg":
+            return "img.png";
+          case "jpeg":
+            return "img.png";
+          case "gif":
+            return "img.png";
+          case "png":
+            return "img.png";
+          case "pdf":
+            return "pdf.png";
+          case "svg":
+            return "svg.png";
+          case "txt":
+            return "text.png";
+          case "doc":
+            return "doc.png";
+          case "docx":
+            return "doc.png";
+          case "zip":
+            return "zip.png";
+          case "rar":
+            return "zip.png";
+          case "tar":
+            return "zip.png";
+          default:
+            return "file.png";
+
+        }
+      }
+      function fileName(name) {
+        var arr = name.split('.');
+        if (arr[0].length > 10) {
+          return arr[0].substring(0, 7) + "..." + arr[arr.length - 1]
+        }
+        else {
+          return name;
+        }
+      }
+     
+    });
+  </script>
+ </head>
+ <body>
+   <nav class="navbar">
+     <div class="logo">Chat <sup style="font-size: .6em;">using socket.io</sup></div>
+     <ul class="nav-links">
+       <input type="checkbox" id="checkbox_toggle" />
+       <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+       <div class="menu">
+         <li><a href="/index.html">Home</a></li>
+         <li><a href="/chatapp.html">Chat app</a></li>
+         <li><a href="/">About</a></li>      
+       </div>
+     </ul>
+   </nav>
+   <section class="container">
+    <div class="panel" id="pd">
+      <div class="w50 center" style="display: none; padding-left: 10px;">
+          Username: <span id="'un"></span>
+      </div>
+  </div>
+  <div class="panel" id="pj" style="display: none;">
+      <div class="w50 center">
+          <div class="input-wrap">
+              <input id="name" class="text" placeholder="name..." /><button id="join" class="btn">Join</button>
+          </div>
+      </div>
+  </div>
+  <div class="panel" id="pc" style="display: none;">
+      <div class="w25">
+          <h4>Users</h4>
+          <ul id="ulist" class="list"></ul>
+      </div>
+      <div class="w75" id="pm">
+          <div class="input-wrap">
+              <input id="msg" class="text" placeholder="message..." /><button id="send" class="btn">Send</button><button
+                  id="file" class="btn">File</button>
+          </div>
+          <div style="margin-top: 10px;">
+              <h4>Messages</h4>
+              <ul id="mlist" class="list"></ul>
+          </div>
+          <div id="files" class="files" style="margin-top: 10px;">
+              <h4>Files uploaded</h4>
+          </div>
+      </div>
+  </div>
+  <input type="file" id="fu" multiple style="display: none;" />
+   </section>
+ </body>
+</html>

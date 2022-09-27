@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="stylesheet" href="styles/style.css" />
+   <title>Document</title>
+ </head>
+ <body>
+   <nav class="navbar">
+     <div class="logo">Chat <sup style="font-size: .6em;">using socket.io</sup></div>
+     <ul class="nav-links">
+       <input type="checkbox" id="checkbox_toggle" />
+       <label for="checkbox_toggle" class="hamburger">&#9776;</label>
+       <div class="menu">
+         <li><a href="/index.html">Home</a></li>
+         <li><a href="/chatapp.html">Chat app</a></li>
+         <li><a href="/about.html">About</a></li>  
+       </div>
+     </ul>
+   </nav>
+   <section class="container">
+        <div class="card">
+           <div class="header">
+            <span class="title">Chat messaging with file share</span>
+            <span class="subtitle">NodeJS with Express+socket.io </span>
+           </div>
+            <div class="body" style="background-color: #fff; color:#000">
+                <h3>Node version 16.15.0</h3>
+                <h4>Dependencies</h4>
+                <ul style="list-style: square; list-style-position:inside; padding-left: 15px;">
+                    <li>Express ^4.18.1</li>
+                    <li>Socket.io ^4.5.1</li>
+                    <li>uuidv4 ^6.2.13</li>
+                </ul>
+            </div>
+        </div>
+   </section>
+ </body>
+</html>
